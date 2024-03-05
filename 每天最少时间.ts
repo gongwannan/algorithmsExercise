@@ -45,28 +45,26 @@ function minCompletionTime(time: number[], m: number): number {
 
 // 判断每日做题 dateLimit 时间 是否可以在 m 天内做完题
 function isFeasible(dateLimit: number, time: number[], m: number): boolean {
-  let currentDayTime = 0;
-  let currentDay = 0;
-  // 算出每天最多做题 dataLimit 需要多少天做完
-  while (time.length !== 0) {
-    // 要做就做耗时最久的题
-    let index = 0;
-    while (index < time.length) {
-      if (currentDayTime + time[index] <= dateLimit) { // 时间够做下一道题
-        currentDayTime += time[index];
-        time.splice(index, 1)
+  let days = 0;
+  let dayTimeList = new Array(time.length).fill(0);
+  for (let i = 0; i < time.length; i++) {
+    let j = 0;
+    while (j < days) {
+      if (dayTimeList[j] + time[i] <= dateLimit) {
+        dayTimeList[j] += time[i];
+        break
       }
-      index++;
+      j++;
     }
-    currentDay++;
-    currentDayTime = 0;
-
+    if (j === days) {
+      dayTimeList[days] = time[i];
+      days++;
+    }
   }
-  console.log(dateLimit, currentDay)
-  return currentDay <= m
+  return days <= m;
 }
 console.log(
-  minCompletionTime([1, 2, 3, 4, 5, 6], 3)
+  minCompletionTime([2, 3, 3, 4, 4, 5, 6], 10)
 )
 
 

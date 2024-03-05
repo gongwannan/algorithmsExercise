@@ -70,11 +70,13 @@ function analyze(data: number[], confirm: number, faulty: number, recovery: numb
   }
   right = left + 1;
   while (right < data.length) {
-    if (data[right] < data[right - 1]) {
+    if (data[right] < data[right - 1] || data[right] - data[right - 1] > 10 || data[right] < 0) {
+      // 标记错误
+      faultArr[right] = 1;
       // 修正值
       data[right] = data[right - 1];
       // 判断是否故障
-      isFault(left);
+      isFault(right);
     }
     right++;
   }
@@ -113,6 +115,5 @@ function analyze(data: number[], confirm: number, faulty: number, recovery: numb
 }
 
 console.log(
-  analyze([-1, 1, 2, 100, 100, 100, 13, 9, 10],
-    10, 3, 3)
+  analyze([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, -31, -32, -33, -34, -35, -36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77,], 10, 6, 3)
 )
